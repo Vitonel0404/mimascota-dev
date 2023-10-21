@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Nueva Atención {% endblock title %}
+
+
+{% block content %}
+
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class=" col-md-6 col-12">
+                                <div class="card">
+                                    <h5 class="card-header">Datos de atención</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12" >
+                                                <form class="form form-horizontal" id="form-atencion">
+                                                    <div class="form-body">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <label >Historia</label>
+                                                            </div>
+                                                            <div class="col-md-8 form-group">
+                                                                <div class="input-group input-group-sm ">
+                                                                    <!-- 'numero_historia':forms.TextInput(attrs={'class':'form-control','onkeypress':'return soloNumeros(event);'}),
+                                                                    {{form.numero_historia}} -->
+                                                                    <input type="text" id= "id_numero_historia" name ="numero_historia" class="form-control"  onkeypress='return soloNumeros(event);'>
+                                                                    <span class="input-group-append">
+                                                                        <button id="btn-buscar-mascota" type="button" class="btn btn-info btn-flat">
+                                                                            <i class="bi bi-search"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>      
+                                                            </div>
+                                                            
+                                                            <div class="col-md-4">
+                                                                <label for="nombre_mascota">Mascota</label>
+                                                            </div>
+                                                            <div class="col-md-8 form-group">
+                                                                <div class="input-group input-group-sm ">
+                                                                    <input id="nombre_mascota" name="nombre_mascota" type="text" class="form-control">
+                                                                    <span class="input-group-append">
+                                                                        <button type="button" class="btn btn-warning" id="btn-recordatorio-atencion" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                                            <i class="bi bi-bell-fill"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>   
+                                                            </div>
+        
+                                                            <div class="col-md-4">
+                                                                <label for="txtPropietario">Propietario</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input id="txtPropietario" name="txtPropietario" type="text" class="form-control" >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-12" >
+                                                <div class="table-responsive">                    
+                                                    <table class="table text-center" id="dataTable-servicio" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>descripcion</th>
+                                                                <th>Precio</th>
+                                                                <th>Añadir</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                                                        
+                                    </div>
+                                  </div>
+                            </div>
+
+                            <div class=" col-md-6 col-12">                             
+                                <div class="card">
+                                        <div class="card-header">
+                                            <h4 class=" text-start" >Servicios añadidos</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table col-md-10 text-center"  id="servicios-añadidos" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Descripción</th>
+                                                            <th>Precio</th>
+                                                            <th>Eliminar</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+            
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <p class="text-firts">Método de pago:</p>
+                                                <select class="form-select" aria-label="Default select example"  id="id_metodo_pago">
+                                                    {% for value in form.id_metodo_pago %}
+                                                        {{value}}
+                                                    {% endfor %}          
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <h3 class="text-start">Total: </h3>
+                                                </div>
+                                                <div class="col-6">
+                                                    <h3 class="text-end" id="monto-total">S/. 00.00</h3>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-grid gap-2"  id="content-save" >
+                                                <button type="button"  id="btn-generar-atencion" class="btn btn-primary">
+                                                    <i class="bi bi-file-earmark-check"></i>
+                                                    Guardar
+                                                </button>
+                                            </div>
+                                            <br>
+                                            <!--
+                                            <div class="d-grid gap-2"  id="content-paycard" >
+                                                
+                                                <button type="button"  id="btn-paycard" class="btn btn-success"> 
+                                                    <i class="bi bi-credit-card"></i>
+                                                    Pagar con tarjeta
+                                                </button>
+                                            </div>  -->                        
+                                        </div>
+                                </div>                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Recortario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-hover text-center" id="table-recordatorio">
+                <thead>
+                    <tr class="table-dark">
+                      <th scope="col">Servicio</th>
+                      <th scope="col">Comentario</th>
+                      <th scope="col">Marcar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{% static 'js/servicio-atencion/FunctionsRegistrarAtencion.js' %}"></script>
+
+
+{% endblock js %}

@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Gestión de usuarios {% endblock title %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button id="btn-modal-usuario" type="button" class="btn btn-primary btn-sm me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-lg"></i> Nuevo Usuario</button>
+    </div>
+ 
+</div>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro de Usuarios</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombres</th>
+                        <th>correo</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registro de Usuarios</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="row g-3" id="form-usuario">
+                <div class="col-md-4">
+                    <label for="id_first_name" class="form-label">Nombre</label>
+                    {{form.first_name}}
+                </div>              
+                <div class="col-md-4">
+                    <label for="id_last_name" class="form-label">Apellido</label>
+                    {{form.last_name}}
+                </div>          
+                <div class="col-md-4">
+                    <label for="id_email" class="form-label">Correo</label>
+                    {{form.email}}
+                </div>  
+                <div class="col-md-3">
+                    <label for="id_username" class="form-label">Usuario</label>
+                    {{form.username}}
+                </div>
+                <div class="col-md-3">
+                    <label for="password1" class="form-label">Contraseña</label>
+                    {{form.password1}}
+                </div>     
+                <div class="col-md-3">
+                    <label for="password2" class="form-label">Confirmar Contraseña</label>
+                    {{form.password2}}
+                </div>
+                <div class="col-md-3">
+                    <label for="password2" class="form-label">Sucursal</label>
+                    <!-- {{form.id_sucursal}} -->
+                    <select name="id_sucursal" id="id_sucursal_id" class="form-select" required>
+                        <option value selected>---------</option>
+                        {% for s in sucursales  %}
+                            <option value="{{s.id_sucursal}}">{{s.razon_social}}</option>
+                        {% endfor %}      
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    {{form.is_active}}
+                    <label for="id_is_active" class="form-check-label">Activo</label>
+                </div>
+                
+                <div class="row">
+                    <div class="content-errors" class="col-12">
+                        
+                    </div>
+                </div>     
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btn-guardar-usuario" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="update" tabindex="-1" aria-labelledby="update" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Actualización de datos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="row g-3" id="form-usuario-update">      
+                <div class="col-md-12">
+                    <label for="id_first_name_update" class="form-label">Nombre</label>
+                    {{form2.first_name}}
+                </div>              
+                <div class="col-md-12">
+                    <label for="id_last_name_update" class="form-label">Apellido</label>
+                    {{form2.last_name}}
+                </div>          
+                <div class="col-md-12">
+                    <label for="id_email_update" class="form-label">Correo</label>
+                    {{form2.email}}
+                </div>  
+                <div class="col-md-12">
+                    <label for="id_sucursal_id_update" class="form-label">Sucursal</label>
+                    <!-- {{form.id_sucursal}} -->
+                    <select name="id_sucursal" id="id_sucursal_update" class="form-select" required>
+                        <option value selected>---------</option>
+                        {% for s in sucursales  %}
+                            <option value="{{s.id_sucursal}}">{{s.razon_social}}</option>
+                        {% endfor %}      
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    {{form2.is_active}}
+                    <label for="id_is_active_update" class="form-check-label">Activo</label>
+                </div>
+                
+                <div class="row">
+                    <div class="content-errors-update" class="col-12">
+                        
+                    </div>
+                </div>     
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btn-modificar-usuario" class="btn btn-secondary">Modificar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Asignar Permisos</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <select id="permisos-select" class="form-select" multiple aria-label="multiple select example">            
+            </select>
+            <span class="fs-6 fw-bold fst-italic">Para selecccionar más de un permiso: Ctrl + Click</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" id="btn-guardar-permiso" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content%}
+
+{% block js %}
+<script src="{% static 'js/usuarios/FunctionsUsuarios.js' %}"></script>
+
+{% endblock js %}

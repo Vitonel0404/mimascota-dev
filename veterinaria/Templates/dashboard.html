@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="row" id="container">
+
+    <div class="col-12 col-lg-12" >
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8 ">
+                <div class="row">
+
+                    <div class="col-12 col-lg-4 col-md-4">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5" >
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon blue">
+                                            <img src="{% static 'imagenes/dollar.svg' %}" alt="dolar">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8" >
+                                        <h6 class="text-muted font-semibold">Ingreso del día</h6>
+                                        <h6 class="font-extrabold mb-0">
+                                            {% if gan_dia %}
+                                            {{gan_dia}}
+                                            {% else %}
+                                            0
+                                            {% endif %}
+                                        </h6>
+                                    </div>                           
+                                </div>                       
+                            </div>
+                        </div>
+                        
+                    </div>
+        
+                    <div class="col-12 col-lg-4 col-md-4">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon purple">
+                                            <img src="{% static 'imagenes/clipboard-check.svg' %}" alt="clipboard-check">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Servicios atendidos</h6>
+                                        <h6 class="font-extrabold mb-0">
+                                            {% if servicios_atendidos %}
+                                            {{servicios_atendidos}}
+                                            {% else %}
+                                            0
+                                            {% endif %}
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-12 col-lg-4 col-md-4">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon red">
+                                            <img src="{% static 'imagenes/bell.svg' %}" alt="bell">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Recordatorios</h6>
+                                        <h6 class="font-extrabold mb-0">{{num_recordatorios_pendientes}}</h6>
+                                        <a href="#" id="btn-enviar-correo">
+                                            <h6 class="text-muted font-semibold">Enviar email </h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-12 col-lg-12 col-md-12">
+                        <div class="card ">
+                            <div class="card-header ">
+                                <h4 class="card-title text-center">Estadísticas mensuales</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h6 class="text-center">Ganancias en servicios</h6>
+                                        <canvas id="myChart"></canvas>
+                                    </div>   
+                                    <div class="col-md-4">
+                                        <h6 class="text-center">Servicios más solicitados</h6>
+                                        <canvas id="myDoughnut"></canvas>
+                                    </div>                       
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">             
+                                {% if prod_agt %}
+                                    <h4 class="text-center" >Productos por agotarse</h4>
+                                {% else %}
+                                    <h4 class="text-center" >¡Tu inventario luce bien!</h4>
+                                {% endif %}
+                            </div>
+                            <div class="card-content pb-4">
+                                {% if prod_agt %}
+                                    {% for p in prod_agt %}
+                                        <div class="recent-message d-flex px-4 py-0">
+                                            <div class="avatar avatar-lg">
+                                                <img src="{% static 'imagenes/tag.svg' %}">
+                                            </div>
+                                            <div class="name ms-2">
+                                                <p class="fs-6 fw-bold">{{p.producto}}</p>
+                                                <p class="fs-6 fst-italic">Cantidad: <span>{{p.cantidad}}</span></p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="recent-message d-flex px-4 py-0">
+                                        <img src="{% static 'imagenes/img_inventario_lleno_dashboard.svg' %}" alt="inventario_lleno" width="100%"> 
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+  
+            
+            
+
+        </div>
+    </div>
+    
+
+    <div class="spinner-border text-dark" id="spinner-id" role="status" >
+        <span class="visually-hidden">Loading...</span>
+    </div>
+
+    
+</section>
+
+
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{% static 'js/dashboard/dashboard.js' %}"></script>
+
+    <script>
+    const labels = {{mes | safe }};
+    
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'S/. Total mensual',
+        backgroundColor: 'rgb(0,0,128)',
+        borderColor: 'rgb(0,0,128)',
+        data: {{monto | safe }},
+      }]
+    };
+  
+    const config = {
+      type: 'line',
+      data: data,
+      options: {}
+    };
+  </script>
+  <script>
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  </script>
+  <script>
+      const lables2={{mejores_servicios_desc | safe}};
+      const data2 = {
+        labels: lables2,
+        datasets: [{
+          label: 'cantidad',
+          data: {{mejores_servicios_cant|safe}},
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+          ],
+          hoverOffset: 4
+        }]
+      };
+    const config2 = {
+        type: 'doughnut',
+        data: data2,
+    };
+    const myChart2 = new Chart(
+        document.querySelector('#myDoughnut'),
+        config2
+    );
+  </script>
+
+{% endblock js %}
+

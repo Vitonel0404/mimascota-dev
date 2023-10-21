@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block title %} Gestiona tus recordatorios {% endblock title %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button id="btn-modal-recordatorio" type="button" class="btn btn-primary btn-sm me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-lg"></i> Nuevo Recordatorio</button>
+    </div>
+</div>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro de recordatorios</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable-recordatorios" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Mascota</th>
+                        <th>Servicio</th>
+                        <th>fecha</th>
+                        <th>comentario</th>
+                        <th>estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                            
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Añadir Recordatorio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="form-recordatorio">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="numero_historia">N° Historia</label>
+                                <div class="input-group input-group-sm ">
+                                    <input type="text" id= "id_numero_historia" name ="numero_historia" class="form-control"  onkeypress='return soloNumeros(event);'>
+                                    <span class="input-group-append">
+                                        <button id="btn-buscar-mascota-recordatorio" type="button"
+                                            class="btn btn-success btn-flat">
+                                            <svg class="svg-inline--fa fa-search fa-w-16 fa-fw select-all"
+                                                aria-hidden="true" focusable="false" data-prefix="fas"
+                                                data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 512 512" data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                    d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre_mascota">Mascota</label>
+                                <input class="form-control" required type="text" name="nombre_mascota" id="nombre_mascota_id">
+                            </div>
+                        </div>
+                    </div >
+    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="id_servicio">Servicios disponibles</label>
+                                <select class="form-select" required name="id_servicio" id="id_servicio_id">
+                                    
+                                </select>
+                            </div>
+    
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="fecha_id">Fecha:</label>
+                                <input class="form-control" required type="date" name="fecha" id="fecha_id">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="comentario_id">Comentario:</label>
+                                <textarea class="form-control" name="comentario" id="id_comentario" cols="10" rows="3"></textarea>
+                            </div>
+                        </div>
+    
+    
+                    </div>
+                    <div class="row">
+                        <div class="content-errors" class="col-12">
+                        </div>
+                    </div>
+                </form>
+                
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btn-modificar-recordatorio">Modificar</button>
+                <button type="button" class="btn btn-primary" id="btn-guardar-recordatorio">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script src="{% static 'js/recordatorio/FunctionsRecordatorio.js' %}"></script>
+{% endblock js %}

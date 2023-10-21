@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+Nueva venta
+{% endblock title %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-8 col-md-8">
+        <div class="row">
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title">Datos de productos</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+
+                            <div class="input-group ">
+                                <input type="text" class="form-control " id="buscador-producto"
+                                    placeholder="Ingrese un producto a buscar">
+                                <span class="input-group-append">
+                                    <button type="button" id="btn-borrarBuscador" class="btn btn-dark btn-flat">
+                                        <i class="bi bi-eraser-fill"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <div id="list-search" class=" col-xs-5 col-sm-10 col-lg-11 col-md-11"
+                                    style="position: relative;  z-index: 10; width: 100%;  ">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable-buscar-producto" width="100%">
+                                <thead class="table-light">
+                                    <tr class="text-center">
+                                        <th>Eliminar</th>
+                                        <th>Producto</th>
+                                        <th>PVP</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-lg-4 col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">Detalle de venta</h6>
+            </div>
+            <div class="card-body">
+                <form action="" id="form-registrar-venta">
+                    <div class="form-group">
+                        <label for="id_cliente">N° Documento</label>
+                        <div class="input-group ">
+                            {{form.id_cliente}}
+                            <span class="input-group-append">
+                                <button type="button" id="btn-buscar-cliente" class="btn btn-info btn-flat btn-sm">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_nombre_cliente">Cliente</label>
+                        <input type="text" readonly class="form-control form-control-sm" name="id_nombre_cliente" id="id_nombre_cliente">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="id_id_tipo_comprobante">Comprobante</label>
+                                {{form.id_tipo_comprobante}}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="id_id_metodo_pago">M. Pago</label>
+                                {{form.id_metodo_pago}}
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-start">OP. Gravada:</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-end" id="id_operacion_gravada">S/. 00.00</p>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-start">IGV:</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-end" id="id_igv">S/. 00.00</p>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-start">TOTAL: </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-end" id="id_monto_total">S/. 00.00</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="content-errors" class="col-12"> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="d-grid gap-2">
+                    <button type="button" id="btn-guardar-venta" class="btn btn-success">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+{% endblock content %}
+
+
+
+{% block js %}
+<script src="{% static 'js/ventas/FunctionsRegistrarVenta.js' %}"></script>
+{% endblock js %}

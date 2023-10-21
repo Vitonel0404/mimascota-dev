@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VettyPet System</title>
+    <link rel="icon" href="{% static 'imagenes/huella-perro.png' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/iconly/bold.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.4/datatables.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/myStyle.css' %}">
+
+    {% block css %} 
+    
+    {% endblock css %}
+    
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active" >
+            <div class="sidebar-wrapper active"  style="z-index:500" >
+                <div class="sidebar-header ">
+                    <div class="d-flex justify-content-between ">
+                        <div class="logo">
+                            <a href="{% url 'dashboard' %}">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img src="{% static 'imagenes/huella-perro.png' %}" alt="" style="width: 120%;height:100%;" >
+                                    </div>
+                                    <div class="col-8">
+                                        <p>VettyPet</p>
+                                    </div>
+                                    <span class="text-center fs-6">Sede : : {{sucursal}}</span>
+                                </div>
+                                
+                            </a>
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                        
+                    </div>
+                    <!-- <p class="text-center fs-6">Sede : : {{sucursal}}</p> -->
+                </div>
+                
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class="sidebar-item active ">
+                            <a href="{% url 'dashboard' %}" class='sidebar-link'>
+                                <i class="bi bi-speedometer"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-layers-fill"></i>
+                                <span>Mantenimiento</span>
+                            </a>
+                            <ul class="submenu ">
+                                {% if perms.gestion.add_animal %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'animal' %}"><i class="bi bi-caret-right"></i> Animales</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.gestion.add_raza %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'raza' %}"><i class="bi bi-card-text"></i> Raza</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.gestion.add_cliente %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'cliente' %}"><i class="bi bi-people"></i> Cliente</a>
+                                </li>
+                                {% endif %}
+                                
+                                {% if perms.gestion.add_mascota %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'mascota' %}"><i class="bi bi-heart"></i> Mascota</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.gestion.add_servicio %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'servicio' %}"><i class="bi bi-scissors"></i> Servicios</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.compras.add_proveedor %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'compras:proveedores' %}"><i class="bi bi-truck"></i> Proveedores</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        
+                        {% if perms.ventas.add_venta %}
+                            <li class="sidebar-item ">
+                                <a href="{% url 'ventas:ventas'  %}" class='sidebar-link'>
+                                    <i class="bi bi-handbag-fill"></i>
+                                    <span>Ventas</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if perms.compras.add_compra %}
+                        <li class="sidebar-item ">
+                            <a href="{% url 'compras:compras' %}" class='sidebar-link'>
+                                <i class="bi bi-cart-fill"></i>
+                                <span>Compras</span>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-collection-fill"></i>
+                                <span>Atenciones</span>
+                            </a>
+                            <ul class="submenu ">
+                                {% if perms.gestion.add_atencion %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'atencion' %}"><i class="bi bi-card-checklist"></i> Atenciones</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.gestion.add_recordatorio %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'recordatorio' %}"><i class="bi bi-bell"></i> Recordatorios</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-grid-3x3-gap-fill"></i>
+                                <span>Inventario</span>
+                            </a>
+                            <ul class="submenu ">
+                                {% if perms.productos.add_categoria %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'producto:categorias' %}"><i class="bi bi-filter-square"></i> Categorías</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.productos.add_producto %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'producto:productos' %}"><i class="bi bi-book"></i> Catálogo</a>
+                                </li> 
+                                {% endif %}
+
+                                {% if perms.productos.add_productosucursal %}
+                                <li class="submenu-item ">
+                                    <a href="{% url 'producto:productos_sucursal' %}"><i class="bi bi-boxes"></i> Productos</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                    
+                        </li>
+                        
+                        {% if perms.ventas.view_estadistica %}
+                            <li class="sidebar-item ">
+                                <a href="{% url 'estadisticas' %}" class='sidebar-link'>
+                                    <i class="bi bi-bar-chart-fill"></i>
+                                    <span>Estadística</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                            
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-tools"></i>
+                                <span>Configuración</span>
+                            </a>
+                            <ul class="submenu ">
+                                {% if perms.usuarios.add_usuario %}
+                                <li class="submenu-item ">                               
+                                    <a href="{% url 'usuarios:usuario' %}"><i class="bi bi-person-circle"></i> Usuarios</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.ventas.add_tipocomprobante %}
+                                <li class="submenu-item ">                               
+                                    <a href="{% url 'ventas:tipo_comprobante' %}"><i class="bi bi-list-ul"></i> Tipo de comprobantes</a>
+                                </li>
+                                {% endif %}
+
+                                {% if perms.ventas.add_correlativo %}
+                                <li class="submenu-item ">                               
+                                    <a href="{% url 'ventas:correlativo' %}"><i class="bi bi-list-columns"></i> Correlativos</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="sidebar-footer">
+                    <div style=" text-align: center;">
+                        
+                        <div>
+                            <p>Bienvenido: {{ user.first_name }} <a href="/logout/" ><i class="bi bi-power"></i></a></p>
+                        </div>
+                        <div hidden>
+                            <p id="id_user">{{ user.id }}</p>
+                        </div>
+                        <div hidden>
+                            <p id="id_empresa">{{ id_empresa }}</p>
+                        </div>
+                        <div hidden>
+                            <p id="sucursal_id">{{ user.id_sucursal }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+                
+            </header>
+            
+            <div class="page-heading">
+                <h3>{% block title %} {% endblock title %}</h3>
+            </div>
+            <div class="page-content">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p><span class="text-end fs-6">Sede : : {{sucursal}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2023 Copyright &copy; Todos los derechos reservados  </p>
+                    </div>
+                    <div class="float-end">
+                        <p>Creado con <span class="text-danger"><i class="bi bi-heart"></i></span> por <a
+                                href="https://www.instagram.com/victor.0404/"  target="_blank" >Victor Manuel H.</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'vendors/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--<script src="{% static 'js/DataTable/datatables-demo.js' %}"> </script>
+    <script src="{% static 'js/DataTable/datatables.min.js' %}"> </script>-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.4/datatables.min.js"></script>
+
+    
+    
+    <script>
+        function soloLetras(e) {
+            const key = e.keyCode || e.which;
+            let tecla = String.fromCharCode(key).toString();
+            const letras="áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+            const especiales = [8,13,32];
+    
+            let tecla_especial=false;
+            for (let i in especiales){
+                if (key==especiales[i]){
+                    tecla_especial=true;
+                    break;
+                }
+            }
+            if(letras.indexOf(tecla)==-1 && !tecla_especial){
+                console.log(letras.toUpperCase())
+                return false;
+            }
+        }
+    </script>
+
+    <script>
+        function soloNumeros(evt){
+            let keynum;
+            if(window.event){
+                keynum=evt.keyCode;
+            }else{
+                keynum = evt-which;
+            }
+            if((keynum>47 && keynum < 58 ) || keynum == 8 || keynum ==13|| keynum == 46 ){
+                return true;
+            }else{
+                return false
+            }
+        }
+    </script> 
+    
+    {% block js %}
+
+    {% endblock js %}
+</body>
+
+</html>

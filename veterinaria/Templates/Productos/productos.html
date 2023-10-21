@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Gestiona tus productos {% endblock title %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a href="{% url 'producto:export_productos_pdf' %}" id="id_report" class="btn btn-dark btn-sm me-md-2" target="_blank"><i class="bi bi-file-earmark-pdf"></i> Generar Reporte</a>  
+        <button id="btn-modal-producto" type="button" class="btn btn-primary btn-sm me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModalForm"><i class="bi bi-plus-lg"></i> Nuevo Producto</button>
+    </div>
+</div>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro de Productos</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable-productos" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>U. Medida</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                            
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="row g-3" id="form-productos" >
+                <div class="col-md-12">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    {{form.nombre}} 
+                </div>
+
+                <div class="col-md-12">
+                    <label for="id_id_categoria" class="form-label">Categoría</label>
+                    {{form.id_categoria}}
+                </div>
+
+                <div class="col-md-12">
+                    <label for="id_id_unidad_medida" class="form-label">Unidad de medida</label>
+                    {{form.id_unidad_medida}}
+                </div>
+                <div class="col-md-12">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    {{form.descripcion}} 
+                </div>
+
+                <div class="col-md-12">
+                    {{form.estado}}
+                    <label for="id_estado" class="form-check-label">Activo</label>
+                </div>
+            </form>
+            <div class="row">
+                <div class="content-errors" class="col-12"> 
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btn-modificar-producto" class="btn btn-secondary">Modificar</button>
+            <button type="button" id="btn-guardar-producto" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+   
+
+{% block js %}
+    <script src="{% static 'js/productos/FunctionsProducto.js' %}"></script>
+{% endblock js %}
+    

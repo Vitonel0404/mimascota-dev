@@ -1,0 +1,18 @@
+
+#spinner-id{
+	z-index: 10000;
+	position: fixed;
+	margin-left: 30%;
+	margin-top: 20%;
+	
+}
+#p-email{
+	color: green;
+}
+#div-img{
+	background-image: url('../imagenes/perro_email.jpg');
+}
+.content-errors p{
+	color: red;
+}
+

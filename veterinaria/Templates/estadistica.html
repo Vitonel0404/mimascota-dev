@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Estadísticas {% endblock title %}
+
+
+{% block content %}
+    <label for="sucursal">Selecciona la sede a consultar:</label>
+    <select name="sucursal" id="id_sucursal" class="form-select">
+        <!-- <option value>seleccione</option> -->
+        {% for s in sucursales %}
+            <option value="{{s.id_sucursal}}">{{s.razon_social}}</option>
+        {% endfor %}
+    </select>
+    <hr>
+    <div class="row">
+
+        <div class="col-md-8">
+            <h6 class="card-title text-center">Ganancias mensuales en Ventas</h6>            
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <div class="col-md-4">        
+            <h6 class="card-title text-center">Productos con mayor salida</h6>
+            <canvas id="myDoughnut"></canvas>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div  class="col-md-8">
+            <h6 class="card-title text-center">Ganancias mensuales en Atenciones</h6>
+            <canvas id="myChartLine"></canvas>
+        </div>
+        <div class="col-md-4">
+            <h6 class="text-center">Servicios más solicitados</h6>
+            <canvas id="myDoughnutServicios"></canvas>
+        </div>   
+    </div>
+    
+
+
+{% endblock content %}
+
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{% static 'js/estadisticas/estadistica.js' %}"></script>
+    
+{% endblock js %}
+    
+    

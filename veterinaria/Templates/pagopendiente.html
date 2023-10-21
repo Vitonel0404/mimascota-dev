@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="card text-center">
+    <div class="card-header">
+      <h1 class=" fs-1">¡PAGO PENDIENTE!</h1>
+    </div>
+    <div class="card-body">
+      <img src="{% static 'imagenes/credit_card.svg' %}" alt="credit_card.svg" width="30%">
+      <br>
+      <br>
+      <p class="card-text">Su sistema actualmente presenta una deuda, realice el pago correspondiente en agentes BCP o Interbank</p>
+
+      <p class="card-text fw-bolder">BCP: XXXXXXXXXXXXXXXXXX</p>
+      <p class="card-text fw-bolder">Interbank: XXXXXXXXXXXXXXXXXX </p>
+
+      <p class="card-text"><strong class="fw-bold"> Si usted está seguro/a que no tiene ninguna deuda presente</strong>, 
+      comuníquese con el administrador del sistema al correo: victor0404.vmhm@gmail.com</p>
+
+    </div>
+
+</div>
+{% endblock %}
+

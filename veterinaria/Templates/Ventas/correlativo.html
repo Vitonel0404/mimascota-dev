@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Mantenimiento de correlativos {% endblock title %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end"> 
+        <button id="btn-modal-correlativo" type="button" class="btn btn-primary btn-sm me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-lg"></i> Nuevo correlativo</button>
+    </div>
+</div>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro goblal de correlativos</h6>
+    </div>
+    <div class="card-body" id="test">
+        <div class="table-responsive" >
+            <table class="table table-bordered" id="dataTable-correlativo" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Comprobante</th>
+                        <th>Serie</th>
+                        <th>Primer Número</th>
+                        <th>Último Registro</th>
+                        <th>Máximo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody >
+                   
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" class="form-inline" id="form-correlativo" >
+                <div class="col-md-12">
+                    <label for="id_id_tipo_comprobante" class="form-label">Comprobante</label>
+                    {{form.id_tipo_comprobante}} 
+                </div>
+
+                <div class="col-md-12">
+                    <label for="id_serie" class="form-label">Serie</label>
+                    {{form.serie}} 
+                </div>
+
+                <div class="col-md-12">
+                    <label for="id_primer_numero" class="form-label">Primer número</label>
+                    {{form.primer_numero}} 
+                </div>
+
+                <div class="col-md-12">
+                    <label for="id_ultimo_numero_registrado" class="form-label">Último número</label>
+                    {{form.ultimo_numero_registrado}} 
+                </div>
+                <div class="col-md-12">
+                    <label for="id_max_correlativo" class="form-label">Máximo número</label>
+                    {{form.max_correlativo}} 
+                </div>
+            </form>
+            <div class="row">
+                <div class="content-errors" class="col-12"> 
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btn-modificar-correlativo" class="btn btn-secondary">Modificar</button>
+            <button type="button" id="btn-guardar-correlativo" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{% static 'js/ventas/FunctionsCorrelativo.js' %}"></script>
+
+{% endblock js %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %} 
+{% endblock css %}
+    
+
+{% block title %} Mantenimiento de animales {% endblock title %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end"> 
+        <button id="btn-modal-animal" type="button" class="btn btn-primary btn-sm me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-lg"></i> Nuevo Animal</button>
+    </div>
+</div>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro global de animales</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive" >
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="10">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="registro">                       
+                </tbody>   
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="form-animal" class="row g-3">
+                <div class="col-md-12">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    {{form.descripcion}}
+                </div>
+                <div class="col-md-12">
+                    {{form.estado}}
+                    <label class="form-check-label" for="id_estado">Activo</label>
+                  </div>
+                
+                <br>
+                
+            </form>
+            <div class="row">
+                <div class="content-errors" class="col-12"> 
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="btn-modificar-animal" class="btn btn-secondary">Modificar</button>
+          <button type="button" id="btn-guardar-animal" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'js/animal-raza/FunctionsAnimal.js' %}"></script>
+{% endblock js %}

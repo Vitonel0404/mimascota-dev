@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>TEST LIST</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+                <tr>
+                    <th scope="row">{{d.id_atencion}}</th>
+                    <td>{{d.numero_historia}}</td>
+                    <td>{{d.monto_total}}</td>
+                    <td>{{d.entrada}}</td>
+                    <td>{{d.salida}}</td>
+                    <td>{{d.estado}}</td>
+                    <td>{{d.usuario}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+            
+</body>
+</html>

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %} 
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+{% endblock css %} 
+
+{% block title %} Confirmación de pago {% endblock title %}
+
+{% block content %}
+<div>
+
+  <div class="row">
+
+    <div class="col-6">
+
+      <div class="row">
+
+        <div class="col-12">
+          <p>SERVICIOS</p>
+        </div>  
+        {% for t in servicios %}
+          <div class="col-12">
+              <p>{{t}}</p>
+          </div>  
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <div class="col-6">
+
+      <div class="row">
+        <div class="col-12">
+          <P>MONTO</P>
+        </div>  
+        {% for m in montos %}
+          <div class="col-12">
+              <p>{{m}}</p>
+          </div>  
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="btn-payment">
+
+</div>
+
+{% endblock content %}
+
+
+{% block js %}
+
+
+<script>
+
+  const mp = new MercadoPago("xxxxxxxxxxxxxxxxxxxxxxxxxx", {
+    locale: "es-PE",
+  });
+  const idp="{{id_preference.id}}"
+  console.log("{{id_preference}}");
+  console.log("hola");
+  console.log(idp);
+  // Inicializa el checkout
+  mp.checkout({
+    preference: {
+      id: idp,
+    },
+    
+    render: {
+      container: ".btn-payment", // Indica el nombre de la clase donde se mostrará el botón de pago
+      label: "Pagar", // Cambia el texto del botón de pago (opcional)
+    },
+    //autoOpen: true, // Habilita la apertura automática de Checkout Pro
+    //theme: {elementsColor: 'rojo'},
+  });
+
+    // Agrega credenciales de SDK
+
+</script>
+  
+{% endblock js %}

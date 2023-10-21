@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Gestión de ventas
+{% endblock title %}
+    
+
+
+{% block content %}
+<div class="card shadow mb-2">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Reporte</h6>
+    </div>
+    <div class="card-body">
+        <div class="row" >
+            <div class="col-md-6">
+                <form id="form-reporte">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">   
+                        <div class="form-group ">
+                            <label for="id_fecha_incio" class="form-label">Desde:</label>
+                            <input type="date" class="form-control" id="id_fecha_inicio" name="fecha_inicio" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="id_fecha_fin" class="form-label">Hasta:</label>
+                            <input type="date" class="form-control" id="id_fecha_fin" name="fecha_fin" required>
+                        </div>
+                    </div>
+                </form>             
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a id="id_report" class="btn btn-dark btn-sm me-md-2" target="_blank"><i class="bi bi-file-earmark-pdf"></i> Generar Reporte</a> 
+                    <a href="{% url 'ventas:registrar_venta' %}" class="btn btn-primary btn-sm me-md-2" ><i class="bi bi-plus-lg"></i> Nueva Venta</a>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro de ventas</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable-venta" width="100%">
+                <thead>
+                    <tr>
+                        <th>Comprobante</th>
+                        <th>Documento</th>
+                        <th>Fecha</th>
+                        <th>S/.Total</th>
+                        <th>Cliente</th>
+                        <th>M.Pago</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>                 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+  
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">N° Venta: <span id="span_numero_venta"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-borderless" id="table-detalle-venta">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+    
+{% endblock content %}
+
+
+
+{% block js %}
+    <script src="{% static 'js/ventas/FunctionsVentas.js' %}"></script>
+{% endblock js %}
+    

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Gestiona las Categorías de tus Productos {% endblock title %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button id="btn-modal-categoria" type="button" class="btn btn-primary btn-sm me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModalForm"><i class="bi bi-plus-lg"></i> Nueva Categoría</button>
+    </div>
+</div>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro de Categorías</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Descripcion</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                            
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="row g-3" id="form-categorias" >
+                <div class="col-md-12">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    {{form.descripcion}} 
+                </div>
+                <div class="col-md-12">
+                    {{form.estado}}
+                    <label for="id_estado" class="form-check-label">Activo</label>
+                </div>
+            </form>
+            <div class="row">
+                <div class="content-errors" class="col-12"> 
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btn-modificar-categoria" class="btn btn-secondary">Modificar</button>
+            <button type="button" id="btn-guardar-categoria" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+    
+{% endblock content %}
+
+
+{% block js %}
+    <script src="{% static 'js/productos/FunctionsCategorias.js' %}"></script>
+{% endblock js %}
+    
+
+
+    

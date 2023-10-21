@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Mantenimiento de mascotas {% endblock title %}
+
+{% block content %}
+<div class="row" >
+    <div class="col-md-12">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'export_mascota' %}" id="id_report" class="btn btn-dark btn-sm me-md-2" target="_blank"><i class="bi bi-file-earmark-pdf"></i> Generar Reporte</a> 
+            <button id="btn-modal-mascota" type="button" class="btn btn-primary btn-sm me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModalForm"><i class="bi bi-plus-lg"></i> Nueva Mascota</button>
+        </div>
+    </div>
+</div>
+<br>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registro global de mascotas</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Historia</th>
+                        <th>Animal</th>
+                        <th>Raza</th>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Sexo</th>
+                        <th>Color</th>
+                        <th>Peso</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                            
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ultimas atenciones</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-borderless" id="tabla-ultimas-atenciones" >
+                <thead>
+                    <tr>
+                      <th scope="col">Servicio</th>
+                      <th scope="col">Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <div id="cont-abrir-pdf">
+                
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="row g-3" id="form-mascota">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <label for="first-name-column" class="col-sm-6 col-form-label">N° Documento</label>
+                        
+                        <div class="input-group ">
+                            {{form.id_cliente}}
+                            <span class="input-group-append">
+                                <button type="button" id="btn-buscar-cliente" class="btn btn-info btn-flat">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <label for="second-name-column" class="col-sm-1 col-form-label">Cliente</label>
+                        <input class="form-control" type="text" id="nombre_cliente">
+                    </div>                    
+                </div>               
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="validationDefault02" class="form-label">Nombre</label>
+                    {{form.nombre}}
+                </div>          
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="validationDefault03" class="form-label">Edad</label>
+                    {{form.edad}}
+                </div>               
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="validationDefaultUsername" class="form-label">Sexo</label>
+                    {{form.sexo}}
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <label for="id_animal" class="form-label">Animal</label>
+                    <select class="form-select" name="id_animal" required id="id_animal">
+                        <option value selected>---------</option>
+                        {% for a in animales %}
+                            <option value="{{a.id_animal}}">{{a.descripcion}}</option>  
+                        {% endfor %}
+                    </select>  
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <label for="raza_id" class="form-label">Raza</label>
+                    {{form.id_raza}}
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <label for="color_id" class="form-label">Color</label>
+                    {{form.color}}
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3">
+                    <label for="peso_id" class="form-label">Peso</label>
+                    {{form.peso}}
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">                 
+                    {{form.estado}}
+                    <label class="form-check-label" for="id_estado">Activo</label>              
+                </div>
+
+                <div class="row">
+                    <div class="content-errors col-12">
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btn-modificar-mascota" class="btn btn-secondary">Modificar</button>
+            <button type="button" id="btn-guardar-mascota" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{% static 'js/cliente-mascota/FunctionsMascota.js' %}"></script>
+{% endblock js %}

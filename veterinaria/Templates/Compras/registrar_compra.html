@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Nueva compra
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <div class="row">
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="card">
+                    
+                    <div class="card-body">
+                        <form class="row g-3" action="" id="form-registrar-compra">
+                            <div class="col-md-3">
+                                <label for="id_id_proveedor" class="form-label">Proveedor</label>  
+                                {{form.id_proveedor}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_id_tipo_comprobante" class="form-label">Tipo de comprobante</label>
+                                {{form.id_tipo_comprobante}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_serie" class="form-label">Serie</label>
+                                {{form.serie}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_numero" class="form-label">Numero</label>
+                                {{form.numero}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_impuesto" class="form-label">Impuesto</label>
+                                {{form.impuesto}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_monto_total" class="form-label">Monto total</label>
+                                {{form.monto_total}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_fecha" class="form-label">Fecha</label>
+                                {{form.fecha}}
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="content-errors" class="col-12"> 
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+        <div class="row">
+            <div class="col-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title">Detalle de compra</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+
+                            <div class="input-group ">
+                                <input type="text" class="form-control " id="buscador-producto"
+                                    placeholder="Ingrese un producto a comprar">
+                                <span class="input-group-append">
+                                    <button type="button" id="btn-borrarBuscador-compra" class="btn btn-dark btn-flat">
+                                        <i class="bi bi-eraser-fill"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <div id="list-search-2" class=" col-xs-5 col-sm-10 col-lg-11 col-md-11"
+                                    style="position: relative;  z-index: 10; width: 100%;  ">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable-productos-compras" width="100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>Eliminar</th>
+                                        <th>Producto</th>
+                                        <th>PCP</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <button class="btn btn-primary" id="btn-guardar-compra" >Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+</div>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'js/compras/FunctionsRegistrarCompras.js' %}"></script>
+{% endblock js %}
+    

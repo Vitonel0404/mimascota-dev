@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="SHORTCUT ICON" href="{% static 'report/favicon.ico' %}" type="image/x-icon">
+    <link href="{% static 'report/reportbro/ext/spectrum.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'report/reportbro/reportbro.css' %}" rel="stylesheet" type="text/css"/>
+
+    <script src="{% static 'report/reportbro/ext/jquery.js' %}"></script>
+    <script src="{% static 'report/reportbro/ext/autosize.js' %}"></script>
+    <script src="{% static 'report/reportbro/ext/JsBarcode.all.min.js' %}"></script>
+    <script src="{% static 'report/reportbro/ext/spectrum.js' %}"></script>
+    <script src="{% static 'report/reportbro/reportbro.js' %}"></script>
+    <script src="{% static 'report/js/knockout-3.5.1.min.js' %}"></script>
+    <script src="{% static 'report/js/jquery.cookie.js' %}"></script>
+    <title>ReportBro</title>
+
+    <script type="text/javascript">
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    var csrftoken = $.cookie('csrftoken');
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        
+        </script>
+    
+</head>
+<body>
+    <div>
+        <ul>
+            <li><a href="{% url 'reportepdf' %}">Index</a></li>
+            <li><a href="{% url 'report:report_edit' 'clientes' %}">Clientes</a></li>
+            <li><a href="{% url 'report:report_edit' 'mascota' %}">Mascotas</a></li>
+            <li><a href="{% url 'report:report_edit' 'proveedores' %}">Proveedores</a></li>
+            <li><a href="{% url 'report:report_edit' 'servicios' %}">Servicios</a></li>
+            <li><a href="{% url 'report:report_edit' 'historial_mascota' %}">Historial de Mascota</a></li>
+            <li><a href="{% url 'report:report_edit' 'ventas' %}">Ventas</a></li>
+            <li><a href="{% url 'report:report_edit' 'compras' %}">Compras</a></li>
+            <li><a href="{% url 'report:report_edit' 'productos' %}">Productos</a></li>
+            <li><a href="{% url 'report:report_edit' 'productos_sucursal' %}">Productos por Sucursal</a></li>
+            <li><a href="{% url 'report:report_edit' 'atenciones' %}">Atenciones</a></li>
+        </ul>
+        {% block body %} {% endblock body %}
+    </div>
+</body>
+</html>
