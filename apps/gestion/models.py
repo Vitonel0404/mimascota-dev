@@ -92,6 +92,7 @@ class MetodoPago(models.Model):
     id_metodo_pago=models.AutoField(primary_key=True)
     descripcion=models.CharField(max_length=50,null=False,blank=False)
     estado=models.BooleanField(default=True)
+    id_sucursal=models.ForeignKey(Sucursal,on_delete=models.DO_NOTHING, default=1)
 
     class Meta:
         verbose_name = 'Metodo de pago'

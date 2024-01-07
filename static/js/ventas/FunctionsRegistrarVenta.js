@@ -391,7 +391,8 @@ async function registrarVenta(){
 
         if (listaProductos.length>0){
             if (id_cliente!=0) {
-                if (form.get('id_cliente')!=0&&form.get('id_tipo_comprobante')!=''&&form.get('id_metodo_pago')!='') {
+                console.log(form.get('id_cliente'),form.get('id_tipo_comprobante'),form.get('id_metodo_pago'));
+                if (form.get('id_cliente').length>=0&&form.get('id_tipo_comprobante')!=''&&form.get('id_metodo_pago')!='') {
                     const response = await fetch('/ventas/registrar_venta/',{
                         method:'POST',
                         body: form,
@@ -400,8 +401,9 @@ async function registrarVenta(){
                     const result = await response.json();
                     const {status}= result;
                     const {mensaje}=result;
+                    const {id_venta}=result;
                     if (status){
-                        imprimirMessage("Sistema",mensaje,'success');
+                        imprimirComprobante(mensaje,'¿Desea imprimir el comprobante de esta venta?','success',id_venta);
                         cleanData();
                     }else{
                         const {error}=result;
@@ -502,4 +504,182 @@ function imprimirMessage(title, message, icon) {
         "text": message,
         "icon": icon
     })
+}
+
+function imprimirComprobante(title='', message='', icon='', id) {
+
+    Swal.fire({
+        "title": title,
+        "text": message,
+        "icon": icon,
+        "showCancelButton": true,
+        "cancelButtonText": "No, cancelar",
+        "confirmButtonText": "Sí, imprimir",
+        "confirmButtonColor": "#3CB371"
+    })
+        .then(function (result) {
+            if (result.isConfirmed) {
+                confirmarImprimirComprobante(id);
+               
+            }
+        })
+}
+async function confirmarImprimirComprobante(id){
+    
+    try {
+        const response=await fetch("/ventas/imprimir_comprobante_venta/"+id+"/");
+        const result = await response.json();
+        imprimirVenta(result) 
+    } catch (error) {
+        console.log(error)
+        imprimirMessage("Sistema","Error al imprimir","error");
+    }
+}
+
+function imprimirVenta(ventaData) {
+    
+    const empresa = JSON.parse(ventaData.empresa);
+    const comprobanteDiv = document.createElement('div');
+    comprobanteDiv.style.position = 'absolute';
+    comprobanteDiv.style.top = '0';
+
+    comprobanteDiv.style.width = '100%';
+    const styles = `
+    <style>
+        @page {
+            size: landscape;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0
+        }
+        .container-m {
+            max-width: 800px;
+            margin: 20px auto 0;
+            padding: 10px;
+        }
+        .header-m {
+            text-align: center;
+        }
+        .invoice-details-empresa {
+            text-align: left;
+            margin-top: 20px;
+            width: 50%;
+        }
+        .invoice-details-numero-doc {
+            text-align: right;
+            margin-top: 20px;
+            width: 50%;
+        }
+        .invoice-details-empresa p{
+            margin: 0px 0;
+            font-size:10px
+        }
+        .invoice-details-numero-doc p{
+            margin: 0px 0;
+        }
+        .negrita {
+            font-weight: bold;
+        }
+        .invoice-details {
+            text-align: left;
+            margin-top: 10px;
+            font-size:13px
+        }
+        .invoice-details p {
+            margin: 0px 0;
+        }
+        table-imprimir {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        .total {
+            margin-top: 20px;
+            text-align: left;
+            font-size:13px
+        }
+        .total p{
+            margin: 3px 0;
+        }
+
+        .flex{
+            display:flex;
+        }
+    </style>
+`;
+
+    comprobanteDiv.innerHTML = `
+        ${styles}
+        <div class="container-m">
+            <div class="header-m">
+
+                <div class="flex">
+
+                    <div class="invoice-details-empresa">
+                        <h3>${empresa[0].fields.razon_social}</h3>
+                        <p> <span class="negrita">${ventaData.data[0][0]} N°:</span> ${ventaData.data[0][1]} </p>
+                        <p> <span class="negrita"> RUC:</span> ${empresa[0].fields.ruc} </p>
+                        <p> <span class="negrita"> Dirección:</span> ${empresa[0].fields.direccion} - ${empresa[0].fields.ciudad}</p>
+                        <p> <span class="negrita"> Teléfono:</span> ${empresa[0].fields.telefono} </p>
+                        <p> <span class="negrita"> Correo:</span> ${empresa[0].fields.correo} </p>
+                    </div>
+                    <div class="invoice-details-numero-doc">
+                        <p> <span class="negrita">${ventaData.data[0][0]} DE VENTA</span </p>
+                        <p> <span class="negrita">${ventaData.data[0][1]} </span </p>
+                    </div>
+                </div>
+                
+            </div>
+            
+
+            <div class="invoice-details">
+                <p> <span class="negrita">Cliente:</span> ${ventaData.data[0][2]} </p>
+                <p> <span class="negrita">DNI:</span> ${ventaData.data[0][2]} </p>
+                <p> <span class="negrita">Fecha:</span> ${ventaData.data[0][3]}</p>
+                
+            </div>
+
+            
+            <div class="center">
+                <table class="table table-sm text-center">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Unidad</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${ventaData.data.map((element,index)=>(
+                            `<tr>
+                                <td>${element[8]}</td>
+                                <td>${element[9]}</td>
+                                <td>${element[10]}</td>
+                                <td>s/.${element[11]}</td>
+                                <td>s/.${element[12]}</td>
+                            </tr>`
+                        )).join('')}
+                        
+                    
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="total">
+                <p> <span class="negrita">Método de pago:</span> ${ventaData.data[0][4]}</p>
+                <p> <span class="negrita">IGV:</span> S/.${ventaData.data[0][5]}</p>
+                <p> <span class="negrita">Total:</span> S/.${ventaData.data[0][6]}</p>
+            </div>
+    `;
+    document.body.appendChild(comprobanteDiv);
+    window.print();
+    document.body.removeChild(comprobanteDiv);
 }

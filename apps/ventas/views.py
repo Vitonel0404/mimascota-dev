@@ -12,6 +12,7 @@ from apps.productos.models import ProductoSucursal
 from apps.report.report import report
 from apps.empresa.views import globales
 from apps.empresa.mixins import ValidatedStatusEmpresaMixin
+from veterinaria.settings import base
 # Create your views here.
 
 class VentasView(PermissionRequiredMixin,ValidatedStatusEmpresaMixin,TemplateView):
@@ -79,7 +80,7 @@ class RegistrarVenta(PermissionRequiredMixin,ValidatedStatusEmpresaMixin,View):
                     # self.actualizar_correlativo(id_empresa,new_correlativo['id_correlativo'],numero)
                     if detalle:
                         self.actualizar_stock_producto(request.POST['detalle_venta'],request.user.id_sucursal)    
-                        return JsonResponse({'status':True,'mensaje':'Venta agregada correctamente'})
+                        return JsonResponse({'status':True,'mensaje':'Venta agregada correctamente','id_venta':new_id})
                     else:
                         return JsonResponse({'status':False,'mensaje':'Error al registrar detalle de venta','error':error})
                 else:
@@ -163,7 +164,7 @@ class TipoComprobanteListView(PermissionRequiredMixin,ValidatedStatusEmpresaMixi
 class TipoComprobanteView(PermissionRequiredMixin,ValidatedStatusEmpresaMixin,View):
     permission_required=['ventas.add_tipocomprobante']
     model = TipoComprobante
-    template_name = "ventas/tipocomprobante.html"
+    template_name = "Ventas/tipocomprobante.html"
     form_class = TipoComprobanteForm
 
     def get_context_data(self, **kwargs):
@@ -204,7 +205,6 @@ class TipoComprobanteDeleteView(PermissionRequiredMixin,ValidatedStatusEmpresaMi
     permission_required=['ventas.delete_tipocomprobante']
     model = TipoComprobante
     def get(self,request,*args,**kwargs):
-        print(kwargs['id_tipo_comprobante'])
         tipocomprobante=self.model.objects.filter(id_tipo_comprobante=kwargs['id_tipo_comprobante'])
         if tipocomprobante.exists():
             for x in tipocomprobante:
@@ -219,7 +219,7 @@ class TipoComprobanteDeleteView(PermissionRequiredMixin,ValidatedStatusEmpresaMi
 class CorrelativoView(PermissionRequiredMixin,ValidatedStatusEmpresaMixin,View):
     permission_required=['ventas.add_correlativo']
     model = Correlativo
-    template_name = "ventas/correlativo.html"
+    template_name = "Ventas/correlativo.html"
     form_class = CorrelativoForm
 
     
@@ -365,6 +365,46 @@ class ExportReportVentas(ValidatedStatusEmpresaMixin,ListView):
             sucursal = Sucursal.objects.filter(id_sucursal=request.user.id_sucursal).values('razon_social')
             context={'ventas':venta_lista,'desde':inicio,'hasta':fin,'fecha_solicitud':today,'resumen':estados_lista,'sucursal':sucursal[0]['razon_social']}
             return report(request, 'ventas',context)
-    
+
+
+class PrintComprobanteVenta(ValidatedStatusEmpresaMixin,ListView):
+    def get(self, request, *args, **kwargs):
+        id_venta=kwargs['id_venta']
+        id_empresa=base.ID_EMPRESA_VARIABLE_GLOBAL
+        with connection.cursor() as cursor:
+            sql = """
+                    SELECT tpc.descripcion,
+                        (vv.serie || '-' || vv.numero) as documento,
+                        (c.nombre || ' ' || c.apellido) as cliente,
+                        vv.fecha,
+                        mt.descripcion,
+                        vv.igv,
+                        vv.monto_total,
+                        CASE
+                            WHEN vv.estado = 1 THEN 'Realizada'
+                            ELSE 'Anulada'
+                        END as estado,
+                        pp.nombre,
+                        pum.descripcion,
+                        dtv.cantidad,
+                        dtv.precio,
+                        dtv.subtotal
+                    FROM ventas_venta as vv
+                    INNER JOIN ventas_detalleventa as dtv ON vv.id_venta = dtv.id_venta_id
+                    INNER JOIN gestion_cliente as c ON c.id_cliente = vv.id_cliente_id
+                    INNER JOIN productos_producto as pp ON dtv.id_producto_id = pp.id_producto
+                    INNER JOIN gestion_metodopago as mt ON vv.id_metodo_pago_id = mt.id_metodo_pago
+                    INNER JOIN ventas_tipocomprobante as tpc ON vv.id_tipo_comprobante_id = tpc.id_tipo_comprobante
+                    INNER JOIN productos_unidadmedida as pum ON pum.id_unidad_medida = pp.id_unidad_medida_id
+                    WHERE vv.id_venta = %s;
+                """
+            cursor.execute(sql,[id_venta])
+            data=cursor.fetchall()
+
+
+            cursor.close()
+            empresa = Empresa.objects.filter(id= id_empresa)
+            empresa=serialize('json',empresa)
+            return JsonResponse({'status':True,'data':data,"empresa":empresa}) 
 
 

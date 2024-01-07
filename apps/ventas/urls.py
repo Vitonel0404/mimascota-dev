@@ -26,5 +26,7 @@ urlpatterns =[
     path('listar_tipo_comprobante/', login_required(TipoComprobanteListView.as_view()), name='listar_tipo_comprobante'),
     path('modificar_tipo_comprobante/<int:id_tipo_comprobante>/', login_required(TipoComprobanteUpdateView.as_view()), name='modificar_tipo_comprobante'),  
     path('eliminar_tipo_comprobante/<int:id_tipo_comprobante>/', login_required(TipoComprobanteDeleteView.as_view()), name='eliminar_tipo_comprobante'),  
+    path('imprimir_comprobante_venta/<int:id_venta>/', login_required(PrintComprobanteVenta.as_view()), name='imprimir_comprobante_venta'),  
+
 
 ]
