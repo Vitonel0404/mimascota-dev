@@ -649,7 +649,7 @@ class RegistrarAtencionView(PermissionRequiredMixin,ValidatedStatusEmpresaMixin,
         id_sucursal = request.user.id_sucursal
         nuevo_numero_atencion = self.generarNumeroAtencion(id_sucursal)
         formulario= self.form_class({'id_atencion':new_id,'numero_atencion':nuevo_numero_atencion,'id_mascota':request.POST['id_mascota'],
-        'monto_total':request.POST['monto_total'], 'estado':False,'id_metodo_pago':request.POST['id_metodo_pago'],
+        'monto_total':request.POST['monto_total'], 'estado':False,'id_metodo_pago':request.POST['id_metodo_pago'],'comentario':request.POST['comentario'],
         'usuario':request.POST['usuario'],'id_sucursal':id_sucursal})
         if formulario.is_valid():
             formulario.save()
@@ -872,9 +872,10 @@ def export_historial_mascota(request, id_mascota):
             #'id_atencion':h[0],
             #'mascota':h[1],         
             'servicio':h[2],
-            'monto':h[3],
-            'fecha':h[4],
-            
+            'comentario':h[3],
+            'monto':h[4],
+            'entrada':h[5],
+            'salida':h[6],
         })
 
     context={

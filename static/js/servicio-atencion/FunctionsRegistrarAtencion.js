@@ -333,6 +333,7 @@ async function registrarAtencion(){
         form.append('id_metodo_pago',document.querySelector('#id_metodo_pago').value.trim());
         form.set('numero_historia',form.get('numero_historia').trim());
         form.set('monto_total',form.get('monto_total').trim());
+        form.append('comentario',document.querySelector('#comentario').value.trim());
         form.append('id_mascota',id_mascota);
         let appendServicios = {};
         let servicios_ready={}
@@ -529,6 +530,7 @@ function cleanData(){
     acum=0;
     listaServicios=[];
     slctTipoPago.value='';
+    document.querySelector('#comentario').value='';
 }
 ///////////////////////////////////////////////////////////////////////////
 function cleanModal(){

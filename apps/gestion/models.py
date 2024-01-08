@@ -110,6 +110,7 @@ class Atencion(models.Model):
     salida=models.DateTimeField(auto_now_add=False,auto_now=True)
     estado=models.BooleanField(null=False,default=False)
     id_metodo_pago=models.ForeignKey('MetodoPago',on_delete=models.DO_NOTHING, blank=False, null=False)
+    comentario = models.TextField(blank= True, null=True)
     usuario=models.ForeignKey(Usuario,on_delete=models.DO_NOTHING, blank=False, null=False)
     id_sucursal=models.ForeignKey(Sucursal,on_delete=models.DO_NOTHING, blank=False, null=False)
 
