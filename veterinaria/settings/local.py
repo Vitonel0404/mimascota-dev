@@ -19,7 +19,7 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'veterinaria-demo',
+        'NAME': 'veterinaria_demo',
         'USER': 'postgres',
         'PASSWORD': 'ydaleu',
         'HOST':'159.223.186.222',
