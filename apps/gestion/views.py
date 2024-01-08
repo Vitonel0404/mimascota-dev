@@ -81,31 +81,45 @@ def Inicio(request):
 def template_email(request):
     return render(request,'Email/email2.html')
 
+from heyoo import WhatsApp
+
 def send_email(mail):
-    try:
-        print(base.EMAIL_HOST_USER)
-        print(base.EMAIL_HOST_PASSWORD)
-        mailServer =smtplib.SMTP(base.EMAIL_HOST, base.EMAIL_PORT)
-        mailServer.starttls()
-        mailServer.login(base.EMAIL_HOST_USER, base.EMAIL_HOST_PASSWORD)
-        print('conectado..')
-        for em in mail:
-            email_to=em['email']
-            mensaje=MIMEMultipart()
-            mensaje['From']=base.EMAIL_HOST_USER
-            mensaje['To']=email_to
-            mensaje['Subject']="Recordatorio pendiente"
-            context={'cliente':em['cliente'],'mascota':em['mascota']}
-            content=render_to_string('Email/email2.html',context)
+    # try:
+    #     print(base.EMAIL_HOST_USER)
+    #     print(base.EMAIL_HOST_PASSWORD)
+    #     mailServer =smtplib.SMTP(base.EMAIL_HOST, base.EMAIL_PORT)
+    #     mailServer.starttls()
+    #     mailServer.login(base.EMAIL_HOST_USER, base.EMAIL_HOST_PASSWORD)
+    #     print('conectado..')
+    #     for em in mail:
+    #         email_to=em['email']
+    #         mensaje=MIMEMultipart()
+    #         mensaje['From']=base.EMAIL_HOST_USER
+    #         mensaje['To']=email_to
+    #         mensaje['Subject']="Recordatorio pendiente"
+    #         context={'cliente':em['cliente'],'mascota':em['mascota']}
+    #         content=render_to_string('Email/email2.html',context)
 
-            mensaje.attach(MIMEText(content, 'html'))
+    #         mensaje.attach(MIMEText(content, 'html'))
 
-            mailServer.sendmail(base.EMAIL_HOST_USER,
-                        email_to,
-                        mensaje.as_string())
+    #         mailServer.sendmail(base.EMAIL_HOST_USER,
+    #                     email_to,
+    #                     mensaje.as_string())
             
-            print("Metodo 2 de envio de correo exitoso! Enviado correctamente a "+email_to)
+    #         print("Metodo 2 de envio de correo exitoso! Enviado correctamente a "+email_to)
+    #     return True
+    # except Exception as e:
+    #     print(e)
+    try:
+        token = 'EAAUHQAPEBWYBO2qM4Xli9VbpG3US9Y5ynkyAYOmZBJqhjwsyxiKZASZBz7CDnavZCdM74MsX7mfV6azqoOcrResqUEXTJBvejZCgQZA3HOP7Iv25ZBso0tzpLZCdZAbg9ld2ZBd75OuX4dSVoCXTyixh8AsjXAb5oC2cChJsMCu9P3PrsVTdoY8ZAq5mzuTkgwf8JT08CD9zSsxVMBKRTUqGeEZD'
+        idNumeroTelefono = '157922434081281'
+        TelefonoEnvia = mail
+        Mensaje = 'hola'
+        imagen = ''
+        mensajeWA = WhatsApp(token,idNumeroTelefono)
+        mensajeWA.send_message(Mensaje, TelefonoEnvia)
         return True
+
     except Exception as e:
         print(e)
 
@@ -115,14 +129,19 @@ def dashboard(request):
     if request.method=='POST':
         user=str(request.user)
         list_mail=correos_recordatorios_pendientes(request.POST['fecha'],user)
-        if len(list_mail)>0:
-            status=send_email(list_mail)
-            if status:
-                return JsonResponse({'status':True,'mensaje':'Correos enviados con éxito'})
-            else:
-                return JsonResponse({'status':False,'mensaje':'Error al enviar correo'})
+        # if len(list_mail)>0:
+        #     status=send_email(list_mail)
+        #     if status:
+        #         return JsonResponse({'status':True,'mensaje':'Correos enviados con éxito'})
+        #     else:
+        #         return JsonResponse({'status':False,'mensaje':'Error al enviar correo'})
+        # else:
+        #     return JsonResponse({'status':False,'mensaje':'No tienes recordatorios pendientes para hoy'})
+        status=send_email('51970506899')
+        if status:
+            return JsonResponse({'status':True,'mensaje':'Mensajes enviados con éxito'})
         else:
-            return JsonResponse({'status':False,'mensaje':'No tienes recordatorios pendientes para hoy'})
+            return JsonResponse({'status':False,'mensaje':'Error al enviar correo'})
     else:
         today=datetime.today().strftime('%Y-%m-%d')
         year=datetime.today().strftime('%Y')
