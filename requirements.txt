@@ -7,6 +7,7 @@ dj-static==0.0.6
 Django==3.2
 enum34==1.1.10
 gunicorn==20.1.0
+heyoo==0.1.0
 idna==3.3
 mercadopago==2.0.10
 Pillow==9.2.0
@@ -17,8 +18,10 @@ reportbro-fpdf==1.7.11
 reportbro-lib==2.0.1
 reportbro-simpleeval==0.9.11
 requests==2.28.1
+requests-toolbelt==1.0.0
 six==1.16.0
 sqlparse==0.4.2
 static3==0.7.0
+typing==3.7.4.3
 urllib3==1.26.10
 XlsxWriter==3.0.3
